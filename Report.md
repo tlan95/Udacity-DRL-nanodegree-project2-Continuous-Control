@@ -135,9 +135,9 @@ With all these hyperparameters and Neural Networks, the result is quite good:
 
 ![Training](images/training.PNG)
 
-![Score](images/plot.PNG)
+![Score](images/plot.jpg)
 
-**The result satisfies the goal of this project as the average (over 100 episodes) of those average scores is at least +30, and in ??? episodes only**. 
+**The result satisfies the goal of this project as the average (over 100 episodes) of those average scores is at least +30, and in 24 episodes only**. 
 
 ## Ideas for future work
 
