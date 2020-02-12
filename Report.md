@@ -1,42 +1,58 @@
-# Project 2 : Reacher Project (Continuous Control)
+# Report of Udacity Deep Reinforcement Learning Nanodegree Project 2: Continuous Control
+
+This is my report for [Udacity Deep Reinforcement Learning Nanodegree](https://www.udacity.com/course/deep-reinforcement-learning-nanodegree--nd893) Project 2: Continuous Control.
 
 ## Project's goal
 
-In this environment, a double-jointed arm can move to target locations. A reward of +0.1 is provided for each step that the agent's hand is in the goal location. Thus, **the goal of the agent is to maintain its position at the target location for as many time steps as possible.**
+In this environment, a double-jointed arm can move to target locations. A reward of +0.1 is provided for each step that the agent's hand is in the goal location. Thus, the goal of the agent is to maintain its position at the target location for as many time steps as possible.
 
 ![In Project 2, train an agent to maintain its position at the target location for as many time steps as possible.](images/reacher.gif)
 
-## Environment details
+### Environment details
 
-The environment is based on [Unity ML-agents](https://github.com/Unity-Technologies/ml-agents). The project environment provided by Udacity is similar to the [Reacher](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Learning-Environment-Examples.md#reacher) environment on the Unity ML-Agents GitHub page.
+The environment is based on [Unity ML-agents](https://github.com/Unity-Technologies/ml-agents). Unity ML-Agents is an open-source Unity plugin that enables games and simulations to serve as environments for training intelligent agents.
 
-> The Unity Machine Learning Agents Toolkit (ML-Agents) is an open-source Unity plugin that enables games and simulations to serve as environments for training intelligent agents. Agents can be trained using reinforcement learning, imitation learning, neuroevolution, or other machine learning methods through a simple-to-use Python API. 
+**Note:** The Unity ML-Agent team frequently releases updated versions of their environment. We are using the v0.4 interface. The project environment provided by Udacity is similar to, but not identical to the [Reacher](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Learning-Environment-Examples.md#reacher) environment on the Unity ML-Agents GitHub page.
 
 The observation space consists of 33 variables corresponding to position, rotation, velocity, and angular velocities of the arm. Each action is a vector with four numbers, corresponding to torque applicable to two joints. Every entry in the action vector should be a number between -1 and 1.
 
 - Set-up: Double-jointed arm which can move to target locations.
 - Goal: The agents must move it's hand to the goal location, and keep it there.
-- Agents: The Unity environment contains 10 agent linked to a single Brain.
-  - The provided Udacity agent versions are Single Agent or 20-Agents
+- Agents: The environment contains 10 agent with same Behavior Parameters. (The provided Udacity agent versions are Single Agent or 20 Agents.)
 - Agent Reward Function (independent):
   - +0.1 Each step agent's hand is in goal location.
-- Brains: One Brain with the following observation/action space.
+- Behavior Parameters:
   - Vector Observation space: 26 variables corresponding to position, rotation, velocity, and angular velocities of the two arm Rigidbodies.
   - Vector Action space: (Continuous) Size of 4, corresponding to torque applicable to two joints.
   - Visual Observations: None.
-- Reset Parameters: Two, corresponding to goal size, and goal movement speed.
 - Benchmark Mean Reward: 30
 
-**In my implementation I have chosen to solve the First version of the environment (Single Agent) using the off-policy DDPG algorithm.** The task is episodic, and **in order to solve the environment, the agent must get an average score of +30 over 100 consecutive episodes.**
+For this project, Udacity provides two separate versions of the Unity environment:
+- The first version contains a single agent.
+- The second version contains 20 identical agents, each with its own copy of the environment.
 
+### Solving the environment
+
+Depending on the chosen environment, there are 2 options to solve the environment:
+
+**Option 1: Solve the First Version**
+
+The task is episodic, and in order to solve the environment, the agent must get an average score of +30 over 100 consecutive episodes. 
+
+**Option 2: Solve the Second Version**
+
+The barrier for solving the second version of the environment is slightly different, to take into account the presence of many agents. In particular, the agents must get an average score of +30 (over 100 consecutive episodes, and over all agents). Specifically:
+    - After each episode, the rewards that each agent received (without discounting) are added up , to get a score for each agent. This yields 20 (potentially different) scores. The average of these 20 scores is then used.
+    - This yields an average score for each episode (where the average is over all 20 agents).
+The environment is considered solved, when the average (over 100 episodes) of those average scores is at least +30.
+
+**In my implementation I have chosen to solve the Second version of the environment (20 Agents) using DDPG algorithm.** 
 
 ## Agent Implementation
 
 ### Deep Deterministic Policy Gradient (DDPG)
 
 This project implements an *off-policy method* called **Deep Deterministic Policy Gradient** and described in the paper [Continuous control with deep reinforcement learning](https://arxiv.org/abs/1509.02971). 
-
-> We adapt the ideas underlying the success of Deep Q-Learning to the continuous action domain. We present an actor-critic, model-free algorithm based on the deterministic policy gradient that can operate over continuous action spaces. Using the same learning algorithm, network architecture and hyper-parameters, our algorithm robustly solves more than 20 simulated physics tasks, including classic problems such as cartpole swing-up, dexterous manipulation, legged locomotion and car driving. Our algorithm is able to find policies whose performance is competitive with those found by a planning algorithm with full access to the dynamics of the domain and its derivatives. We further demonstrate that for many of the tasks the algorithm can learn policies end-to-end: directly from raw pixel inputs.
 
 Deep Deterministic Policy Gradient (DDPG) is an algorithm which concurrently learns a Q-function and a policy. It uses off-policy data and the Bellman equation to learn the Q-function, and uses the Q-function to learn the policy.
 
