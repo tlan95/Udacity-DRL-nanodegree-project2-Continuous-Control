@@ -4,73 +4,57 @@ This repository contains my codes, report and other files for Udacity Deep Reinf
 
 ## Project's goal
 
-In this environment, a double-jointed arm can move to target locations. A reward of +0.1 is provided for each step that the agent's hand is in the goal location. Thus, **the goal of the agent is to maintain its position at the target location for as many time steps as possible.**
+In this environment, a double-jointed arm can move to target locations. A reward of +0.1 is provided for each step that the agent's hand is in the goal location. Thus, the goal of the agent is to maintain its position at the target location for as many time steps as possible.
 
 ![In Project 2, train an agent to maintain its position at the target location for as many time steps as possible.](images/reacher.gif)
 
-
-### About Deep Reinforcement Learning
-
-> [Reinforcement learning](https://skymind.ai/wiki/deep-reinforcement-learning) refers to goal-oriented algorithms, which learn how to attain a complex objective (goal) or maximize along a particular dimension over many steps; for example, maximize the points won in a game over many moves. They can start from a blank slate, and under the right conditions they achieve superhuman performance. Like a child incentivized by spankings and candy, these algorithms are penalized when they make the wrong decisions and rewarded when they make the right ones – this is reinforcement.
-
-In this project I have chosen to use a Policy Based method called [DDPG (Deep Deterministics Policy Gradient)](https://spinningup.openai.com/en/latest/algorithms/ddpg.html)
-
 ### Environment details
 
-The environment is based on [Unity ML-agents](https://github.com/Unity-Technologies/ml-agents). The project environment provided by Udacity is similar to the [Reacher](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Learning-Environment-Examples.md#reacher) environment on the Unity ML-Agents GitHub page.
+The environment is based on [Unity ML-agents](https://github.com/Unity-Technologies/ml-agents). Unity ML-Agents is an open-source Unity plugin that enables games and simulations to serve as environments for training intelligent agents.
 
-> The Unity Machine Learning Agents Toolkit (ML-Agents) is an open-source Unity plugin that enables games and simulations to serve as environments for training intelligent agents. Agents can be trained using reinforcement learning, imitation learning, neuroevolution, or other machine learning methods through a simple-to-use Python API. 
+**Note:** The Unity ML-Agent team frequently releases updated versions of their environment. We are using the v0.4 interface. The project environment provided by Udacity is similar to, but not identical to the [Reacher](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Learning-Environment-Examples.md#reacher) environment on the Unity ML-Agents GitHub page.
 
 The observation space consists of 33 variables corresponding to position, rotation, velocity, and angular velocities of the arm. Each action is a vector with four numbers, corresponding to torque applicable to two joints. Every entry in the action vector should be a number between -1 and 1.
 
 - Set-up: Double-jointed arm which can move to target locations.
 - Goal: The agents must move it's hand to the goal location, and keep it there.
-- Agents: The environment contains 10 agent linked to a single Brain.
-  - The provided Udacity agent versions are Single Agent or 20-Agents
+- Agents: The environment contains 10 agent with same Behavior Parameters. (The provided Udacity agent versions are Single Agent or 20 Agents.)
 - Agent Reward Function (independent):
   - +0.1 Each step agent's hand is in goal location.
-- Brains: One Brain with the following observation/action space.
+- Behavior Parameters:
   - Vector Observation space: 26 variables corresponding to position, rotation, velocity, and angular velocities of the two arm Rigidbodies.
   - Vector Action space: (Continuous) Size of 4, corresponding to torque applicable to two joints.
   - Visual Observations: None.
-- Reset Parameters: Two, corresponding to goal size, and goal movement speed.
 - Benchmark Mean Reward: 30
 
-
-For this project, Udacity has provided two separate versions of the Unity environment:
+For this project, Udacity provides two separate versions of the Unity environment:
 - The first version contains a single agent.
 - The second version contains 20 identical agents, each with its own copy of the environment.
 
 The second version is useful for algorithms like [PPO](https://arxiv.org/pdf/1707.06347.pdf), [A3C](https://arxiv.org/pdf/1602.01783.pdf), and [D4PG](https://openreview.net/pdf?id=SyZipzbCb) that use multiple (non-interacting, parallel) copies of the same agent to distribute the task of gathering experience.
 
-### Solving the Environment
+### Solving the environment
 
-Depending on the chosen environment for the implementation, there are 2 possibilities:
+Depending on the chosen environment, there are 2 options to solve the environment:
 
-- Option 1: Solve the First Version
-  - The task is episodic, and in order to solve the environment, the agent must get an average score of +30 over 100 consecutive episodes. 
+**Option 1: Solve the First Version**
+The task is episodic, and in order to solve the environment, the agent must get an average score of +30 over 100 consecutive episodes. 
 
-- Option 2: Solve the Second Version
-  - The barrier for solving the second version of the environment is slightly different, to take into account the presence of many agents. In particular, the agents must get an average score of +30 (over 100 consecutive episodes, and over all agents). Specifically:
+**Option 2: Solve the Second Version**
+The barrier for solving the second version of the environment is slightly different, to take into account the presence of many agents. In particular, the agents must get an average score of +30 (over 100 consecutive episodes, and over all agents). Specifically:
     - After each episode, the rewards that each agent received (without discounting) are added up , to get a score for each agent. This yields 20 (potentially different) scores. The average of these 20 scores is then used.
     - This yields an average score for each episode (where the average is over all 20 agents).
+The environment is considered solved, when the average (over 100 episodes) of those average scores is at least +30.
 
-  - The environment is considered solved, when the average (over 100 episodes) of those average scores is at least +30.
-
-
-**In my implementation I have chosen to solve the First version of the environment (Single Agent) using the off-policy DDPG algorithm.** The task is episodic, and **in order to solve the environment, the agent must get an average score of +30 over 100 consecutive episodes.**
-
-
+**In my implementation I have chosen to solve the Second version of the environment (20 Agents) using DDPG algorithm.** 
 
 ## Getting started
 
 ### Installation requirements
 
-- You first need to configure a Python 3.6 / PyTorch 0.4.0 environment with the needed requirements as described in the [Udacity repository](https://github.com/udacity/deep-reinforcement-learning#dependencies)
-- Of course you have to clone this project and have it accessible in your Python environment
-- Then you have to install the Unity environment as described in the [Getting Started section](https://github.com/udacity/deep-reinforcement-learning/blob/master/p2_continuous-control/README.md) (The Unity ML-agant environment is already configured by Udacity)
-
-Download the environment from one of the links below.  You need only select the environment that matches your operating system:
+- To begin with, you need to configure a Python 3.6 / PyTorch 0.4.0 environment with the requirements described in [Udacity repository](https://github.com/udacity/deep-reinforcement-learning#dependencies)
+- Then you need to clone this project and have it accessible in your Python environment
+- For this project, you will not need to install Unity. This is because we have already built the environment for you, and you can download it from one of the links below. You need to only select the environment that matches your operating system:
 
     - **_Version 1: One (1) Agent_**
         - Linux: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/one_agent/Reacher_Linux.zip)
@@ -88,20 +72,12 @@ Download the environment from one of the links below.  You need only select the 
 
     (_For AWS_) If you'd like to train the agent on AWS (and have not [enabled a virtual screen](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-on-Amazon-Web-Service.md)), then please use [this link](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/one_agent/Reacher_Linux_NoVis.zip) (version 1) or [this link](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/Reacher_Linux_NoVis.zip) (version 2) to obtain the "headless" version of the environment.  You will **not** be able to watch the agent without enabling a virtual screen, but you will be able to train the agent.  (_To watch the agent, you should follow the instructions to [enable a virtual screen](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-on-Amazon-Web-Service.md), and then download the environment for the **Linux** operating system above._)
 
-- Finally, unzip the environment archive in the 'project's environment' directory and eventually adjust the path to the UnityEnvironment in the code.
+- Finally, you can unzip the environment archive in the project's environment directory and set the path to the UnityEnvironment in the code.
 
-Note: A conda environment file is provided with this project (so you can check/install the versions of the libraries I used)
+## Instructions
 
-
+### Training an agent
     
-### Train a agent
-    
-Execute the provided notebook within this Nanodegree Udacity Online Workspace for "project #2  Continuous Control" (or build your own local environment and make necessary adjustements for the path to the UnityEnvironment in the code )
+You can either run `Continuous_Control.ipynb` in the Udacity Online Workspace for "Project2: Continuous Control" step by step or build your own local environment and set the path to the UnityEnvironment in the code.
 
-Note :
-- Manually playing with the environment has not been implemented as it is not available with Udacity Online Worspace (No Virtual Screen)    
-- Watching the trained agent playing in the environment has not been implemented neither, as it is not available with Udacity Online Worspace (No Virtual Screen) and not compatible with my personal setup (see Misc : Configuration used  section)
-
-### Misc : Configuration used 
-
-This agent has been trained on my "Deep Learning Dev Box", which is basically a Linux GPU Server, running Docker containers (using Nvidia Docker 2), serving Jupyter Lab notebooks which are accessed remotely via a web interface (or a ssh connection) : unfortunately this setup does not seem suitable to run Unity ML agent, with the GPU and providing a display for for the agent (See [Unity documentation](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Using-Docker.md) for more details). Thus the headless / no visualization version of the Unity environment was used.
+**Note:** The Workspace does not allow you to see the simulator of the environment; so, if you want to watch the agent while it is training, you should train locally.    
